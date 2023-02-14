@@ -12,6 +12,7 @@ import subprocess
 import time
 
 IP_SCROLL_SPEED = .075
+COMMAND_POLL_INTERVAL = 3
 
 # Command line arguments to make testing easier
 parser = argparse.ArgumentParser()
@@ -56,7 +57,7 @@ while not ip:
     if first_eval:
       sense.set_pixels(no_connection)
     # Wait a bit before we try again; command fast, network slow
-    time.sleep(3)
+    time.sleep(COMMAND_POLL_INTERVAL)
   first_eval = False
   if give_up_after <= time.monotonic():
     # If we haven't gotten an IP by now, we probably won't without user help
@@ -129,5 +130,5 @@ while True:
     # This implicitly takes a while, so we don't need an explicit sleep here
     sense.show_message(ip, scroll_speed=IP_SCROLL_SPEED)
   else:
-    time.sleep(3)
+    time.sleep(COMMAND_POLL_INTERVAL)
 
