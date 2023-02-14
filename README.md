@@ -2,8 +2,6 @@
 A script to automatically print out a Raspberry Pi's IP address on a connected SenseHAT when the device boots up.
 
 ## Behavior
-This scripts assumes it will be executing as part of the boot sequence.
-
 ```mermaid
 graph TD
   boot("System boot")
