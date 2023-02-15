@@ -22,7 +22,11 @@ parser.add_argument('-s', '--ignore-ssh', required=False, action='store_true', d
 parser.add_argument('-d', '--ignore-display', required=False, action='store_true', default=False, dest='ignore_display')
 args = parser.parse_args()
 
-sense = SenseHat()
+try:
+  sense = SenseHat()
+except OSError as err:
+  print("Failed to initialize SenseHAT: " + str(err))
+  exit(1)
 sense.low_light = True
 
 # If for some reason we're terminated abnormally, clear the HAT's LEDs
@@ -81,6 +85,7 @@ while True:
   # Check if the user is interacting via SSH or display
   # TODO(whk) what about other potential sources of user interaction, like VNC
   # or SCP? Check ports in use more generically?
+  # TODO(whk) consider if the IP could change e.g. during a long HDMI session.
   if not args.ignore_ssh:
     sockets = run("ss | grep -i ssh", shell=True, stdout=PIPE).stdout.decode().strip()
     if sockets and not live_ssh:
